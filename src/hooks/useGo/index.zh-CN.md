@@ -7,13 +7,62 @@
 
 ### 基础用法
 
-<code src="./demo/demo1.tsx" />
-<code src="./demo/demo2.tsx" />
+```tsx
+import { View, Text, Button } from '@tarojs/components'
+import useGo from '@/hooks/useGo/index'
+
+const Index = () => {
+  const go = useGo()
+
+  return (
+    <View className='index'>
+      <View><Text>我的空间</Text></View>
+      <Button className='add_btn' onClick={() => {
+        go.to({
+          url: '/pages/user/index?isAuth=true', params: {
+            name: "张三",
+            sex: "男",
+            age: 18,
+          }
+        })
+      }}
+      >前往个人中心</Button>
+    </View>
+  )
+}
+
+export default Index
+```
+user页面获取参数
+```tsx
+import Taro from '@tarojs/taro'
+import { View, Text } from '@tarojs/components'
+import useGo from '@/hooks/useGo/index'
+
+const User = () => {
+  const app = Taro.getApp()
+  const go = useGo()
+  const params = go.getParams()
+
+  return (
+    <View className='index'>
+      <View><Text>个人中心</Text></View>
+      <View>姓名：<Text>{params.name}</Text></View>
+      <View>性别：<Text>{params.sex}</Text></View>
+      <View>年龄：<Text>{params.age}</Text></View>
+      <View><Text>{JSON.stringify(app.$pageParams, null, 4)}</Text></View>
+    </View>
+  )
+}
+
+export default User
+```
 
 ## API
 
 ```typescript
 const go = useGo()
+
 /** switchTab & navigateTo */
 go.to(options: Options)
 /** redirectTo */
