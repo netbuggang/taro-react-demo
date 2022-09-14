@@ -1,4 +1,4 @@
-import Taro, { useRouter } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 
 /**获取当前页面栈
  * 

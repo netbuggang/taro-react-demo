@@ -54,6 +54,7 @@ export default function useGo() {
     return Taro.navigateBack(options)
   }
 
+  /** 获取页面参数 */
   const getParams = () => {
     const params = router.params;
 
