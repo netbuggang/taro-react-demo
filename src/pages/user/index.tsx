@@ -13,7 +13,8 @@ const User = () => {
       <View>姓名：<Text>{params.name}</Text></View>
       <View>性别：<Text>{params.sex}</Text></View>
       <View>年龄：<Text>{params.age}</Text></View>
-      <View><Text>{JSON.stringify(app.$pageParams, null, 4)}</Text></View>
+      <View>params: <Text>{JSON.stringify(params, null, 4)}</Text></View>
+      <View>app.$pageParams: <Text>{JSON.stringify(app.$pageParams, null, 4)}</Text></View>
     </View>
   )
 }

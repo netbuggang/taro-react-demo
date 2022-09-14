@@ -3,5 +3,18 @@
   "projectname": "taro-react-demo",
   "setting": {
     "compileHotReLoad": false
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "",
+          "pathName": "pages/user/index",
+          "query": "test=01",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
   }
 }

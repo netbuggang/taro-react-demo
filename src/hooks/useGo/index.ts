@@ -58,11 +58,11 @@ export default function useGo() {
   const getParams = () => {
     const params = router.params;
 
-    const pageParam = app.$pageParams[router.path];
+    const pageParam = app?.$pageParams?.[router.path];
     if (pageParam) {
       Object.assign(params, pageParam)
     }
-
+    
     return params
   }
 
