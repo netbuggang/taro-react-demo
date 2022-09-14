@@ -1,3 +1,5 @@
+import path from 'path'
+
 const config = {
   projectName: 'taro-react-demo',
   date: '2022-9-14',
@@ -22,6 +24,14 @@ const config = {
   compiler: 'webpack5',
   cache: {
     enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
+  },
+  alias: {
+    '@/api': path.resolve(__dirname, '..', 'src/api'),
+    '@/components': path.resolve(__dirname, '..', 'src/components'),
+    '@/utils': path.resolve(__dirname, '..', 'src/utils'),
+    '@/images': path.resolve(__dirname, '..', 'src/images'),
+    '@/store': path.resolve(__dirname, '..', 'src/store'),
+    '@/hooks': path.resolve(__dirname, '..', 'src/hooks')
   },
   mini: {
     postcss: {
@@ -66,7 +76,7 @@ const config = {
   }
 }
 
-module.exports = function (merge) {
+export default function (merge) {
   if (process.env.NODE_ENV === 'development') {
     return merge({}, config, require('./dev'))
   }

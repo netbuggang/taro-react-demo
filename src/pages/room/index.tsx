@@ -1,5 +1,5 @@
 import { View, Text, Button } from '@tarojs/components'
-import useGo from '../../hooks/useGo/index'
+import useGo from '@/hooks/useGo'
 
 const Index = () => {
   const go = useGo()
