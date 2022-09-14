@@ -3,7 +3,7 @@
 ## 功能描述
 用于页面路由跳转
 
-## 参数
+## API
 ```typescript
 const go = useGo()
 
