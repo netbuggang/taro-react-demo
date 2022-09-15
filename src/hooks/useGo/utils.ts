@@ -20,14 +20,7 @@ export const getCurrentPageUrl = () => {
   const url = currentPage.route
   const options = currentPage.options
 
-  //拼接url的参数
-  let currentPageUrl = url + '?'
-  for (var key in options) {
-    var value = options[key]
-    currentPageUrl += key + '=' + value + '&'
-  }
-
-  return "/" + currentPageUrl;
+  return `/${url}` + (stringifyParams(options) ? `?${stringifyParams(options)}` : '')
 }
 
 /**获取链接?后的参数
@@ -36,35 +29,42 @@ export const getCurrentPageUrl = () => {
  * @returns 
  */
 export const getUrlQuery = (url: string) => {
-  const query = {}
+  let query = {}
 
   if (url.indexOf("?") !== -1) {
-    let str = url.substring(url.indexOf("?") + 1)
-    const strs = str.split("&")
-    for (let i = 0; i < strs.length; i++) {
-      query[strs[i].split("=")[0]] = decodeURIComponent(strs[i].split("=")[1])
-    }
+    const str = url.substring(url.indexOf("?"))
+    query = parseParams(str)
   }
 
   return query;
 }
 
-export const formatParams = () => {
+/**反序列化链接后的参数
+ * 
+ * @param search 
+ * @returns 
+ */
+export const parseParams = (search: string): Object => {
+  const query = {}
+  const strs = search.replace('?', '').split("&")
+  strs.forEach(item => {
+    query[item.split("=")[0]] = decodeURIComponent(item.split("=")[1])
+  })
 
+  return query
 }
 
-export const openEmbeddedMiniProgram = (options: Taro.openEmbeddedMiniProgram.Option) => {
-  return Taro.openEmbeddedMiniProgram(options)
-}
+/**序列化对象为URL参数
+ * 
+ * @param options 
+ * @returns 
+ */
+export const stringifyParams = (options: Object) => {
+  let str = "";
 
-export const navigateToMiniProgram = (options: Taro.navigateToMiniProgram.Option) => {
-  return Taro.navigateToMiniProgram(options)
-}
+  for (let key in options) {
+    str += `${key}=${options[key]}&`
+  }
 
-export const navigateBackMiniProgram = (options: Taro.navigateToMiniProgram.Option) => {
-  return Taro.navigateToMiniProgram(options)
-}
-
-export const exitMiniProgram = (options: Taro.exitMiniProgram.Option) => {
-  return Taro.exitMiniProgram(options)
+  return str.slice(0, -1);
 }

@@ -54,6 +54,22 @@ export default function useGo() {
     return Taro.navigateBack(options)
   }
 
+  const openEmbeddedMiniProgram = (options: Taro.openEmbeddedMiniProgram.Option) => {
+    return Taro.openEmbeddedMiniProgram(options)
+  }
+
+  const navigateToMiniProgram = (options: Taro.navigateToMiniProgram.Option) => {
+    return Taro.navigateToMiniProgram(options)
+  }
+
+  const navigateBackMiniProgram = (options: Taro.navigateToMiniProgram.Option) => {
+    return Taro.navigateToMiniProgram(options)
+  }
+
+  const exitMiniProgram = (options: Taro.exitMiniProgram.Option) => {
+    return Taro.exitMiniProgram(options)
+  }
+
   /** 获取页面参数 */
   const getParams = () => {
     const params = router.params;
@@ -62,7 +78,7 @@ export default function useGo() {
     if (pageParam) {
       Object.assign(params, pageParam)
     }
-    
+
     return params
   }
 
@@ -75,6 +91,10 @@ export default function useGo() {
     get params() {
       return getParams()
     },
+    openEmbeddedMiniProgram,
+    navigateToMiniProgram,
+    navigateBackMiniProgram,
+    exitMiniProgram,
     ...utils
   }
 }
