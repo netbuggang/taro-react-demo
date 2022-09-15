@@ -63,7 +63,7 @@ export const stringifyParams = (options: Object) => {
   let str = "";
 
   for (let key in options) {
-    str += `${key}=${options[key]}&`
+    str += `${encodeURIComponent(key)}=${encodeURIComponent(options[key])}&`
   }
 
   return str.slice(0, -1);
