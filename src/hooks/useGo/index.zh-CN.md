@@ -2,7 +2,7 @@
 > 以 Promise 风格 调用：支持
 ## 功能描述
 用于页面路由跳转
-
+![useGo.png](https://s1.plumeta.com/i/2022/09/22/yztou6.png)
 ## API
 ```typescript
 const go = useGo()
