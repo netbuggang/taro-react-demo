@@ -1,11 +1,16 @@
 import { Component, PropsWithChildren } from 'react'
 import { Provider } from 'react-redux'
+import { initUseGo } from '@/hooks/useGo'
 
 import configStore from './store'
 
 import './app.scss'
 
 const store = configStore()
+
+initUseGo({
+  webView: '/pages/h5/index?url='
+})
 
 class App extends Component<PropsWithChildren> {
   componentDidMount() { }

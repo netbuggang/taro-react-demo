@@ -4,7 +4,7 @@ import { View, Text } from '@tarojs/components'
 import useGo from '../../hooks/useGo/index'
 import './index.scss'
 
-const User = () => {
+const Demo = () => {
   const go = useGo()
 
   const [params, setParams] = useState({} as any);
@@ -15,7 +15,7 @@ const User = () => {
 
   return (
     <View className='index'>
-      <View className='page-title'><Text>个人中心</Text></View>
+      <View className='page-title'><Text>DEMO</Text></View>
       <View>姓名：<Text>{params.name}</Text></View>
       <View>性别：<Text>{params.sex}</Text></View>
       <View>年龄：<Text>{params.age}</Text></View>
@@ -24,4 +24,4 @@ const User = () => {
   )
 }
 
-export default User
+export default Demo

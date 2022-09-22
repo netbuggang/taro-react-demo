@@ -3,6 +3,8 @@ export default {
     'pages/room/index',
     'pages/index/index',
     'pages/user/index',
+    'pages/demo/index',
+    'pages/h5/index'
   ],
   window: {
     backgroundTextStyle: 'light',

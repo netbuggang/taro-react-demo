@@ -1,56 +1,83 @@
 import Taro, { useRouter } from '@tarojs/taro'
 import * as utils from './utils'
-import type { Options } from './types'
-import config from '../../app.config'
+import type { IOptions, IConfig } from './types'
 
-const app = Taro.getApp()
-const TAB_BAR_LIST = config.tabBar?.list?.map((item) => `/${item.pagePath}`) || [];
 const PAGE_LEVEL_LIMIT = 10
+const Config: IConfig = {}
 
-const handleParams = (options: Options) => {
-  const { url, params } = options
-  const _url = url.split("?")[0]
-  if (!app.$pageParams) {
-    app.$pageParams = {}
+const handleOptions = (options: IOptions) => {
+  const query: any = utils.getUrlQuery(options.url)
+
+  if (utils.validate.isRelativePath(options.url)) {
+    throw { errMsg: 'url不可以使用相对路径' }
   }
-  app.$pageParams[_url] = params
+
+  // http链接处理
+  if (utils.validate.isHttp(options.url)) {
+    options.url = Config.webView + encodeURIComponent(options.url)
+  }
+
+  // 小程序链接处理
+  if (utils.validate.isAppId(options.url)) {
+    options.appId = options.url
+  } else if (query.appId) {
+    options.path = options.url
+    options.appId = query.appId
+  }
+
+  // 链接补全+去除前后空格（这一步要在最后处理）
+  if (!options.url.startsWith('/')) {
+    options.url = '/' + options.url.trim()
+  }
+
+  // 处理额外的参数
+  options.params = Object.assign(options.params || {}, query)
+  if (options.params) {
+    Taro.preload('$pageParams', options.params)
+  }
+
+  return options
 }
 
 export default function useGo() {
   const router = useRouter()
 
-  const to = (options: Options) => {
-    handleParams(options)
+  const to = async (options: IOptions) => {
+    const _options = handleOptions(options)
+
+    // 跳转其它小程序
+    if (_options.appId) {
+      return navigateToMiniProgram(_options as unknown as Taro.navigateToMiniProgram.Option)
+    }
 
     // 页面栈超过10层后使用replace跳转
     const pages = Taro.getCurrentPages()
     if (pages.length >= PAGE_LEVEL_LIMIT) {
-      return replace(options)
+      return replace(_options)
     }
 
-    // 判断是不是tabbar配置的页面
-    const _url = options.url.split("?")[0]
-    if (TAB_BAR_LIST.includes(_url)) {
-      Object.assign(options.params as any, utils.getUrlQuery(options.url))
-      options.url = _url;
-      return Taro.switchTab(options)
-    }
-    return Taro.navigateTo(options)
+    return Taro.navigateTo(_options).catch(error => {
+      // 判断是不是tabbar配置的页面
+      if (error?.errMsg?.includes('can not navigateTo a tabbar page')) {
+        _options.url = _options.url.split('?')[0]
+        return Taro.switchTab(_options)
+      }
+    })
   }
 
-  const replace = (options: Options) => {
-    handleParams(options)
+  const replace = (options: IOptions) => {
+    const _options = handleOptions(options)
 
-    return Taro.redirectTo(options)
+    return Taro.redirectTo(_options)
   }
 
-  const relaunch = (options: Options) => {
-    handleParams(options)
+  const relaunch = (options: IOptions) => {
+    const _options = handleOptions(options)
 
-    return Taro.reLaunch(options)
+    return Taro.reLaunch(_options)
   }
 
-  const back = (options: Options) => {
+  const back = (options: IOptions) => {
     return Taro.navigateBack(options)
   }
 
@@ -72,14 +99,12 @@ export default function useGo() {
 
   /** 获取页面参数 */
   const getParams = () => {
-    const params = router.params;
+    const params = router.params
 
-    const pageParam = app?.$pageParams?.[router.path];
-    if (pageParam) {
-      Object.assign(params, pageParam)
-    }
+    const preloadData = Taro.getCurrentInstance().preloadData
+    const result = Object.assign({}, params, preloadData?.$pageParams || {})
 
-    return params
+    return result
   }
 
   return {
@@ -97,4 +122,8 @@ export default function useGo() {
     exitMiniProgram,
     ...utils
   }
+}
+
+export const initUseGo = (config: IConfig) => {
+  Object.assign(Config, config)
 }

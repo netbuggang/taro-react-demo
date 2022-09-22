@@ -65,7 +65,7 @@ class Index extends Component<PropsWithChildren> {
   render() {
     return (
       <View className='index'>
-        <View><Text>首页</Text></View>
+        <View className='page-title'><Text>首页</Text></View>
         <Button className='add_btn' onClick={this.props.add}>+</Button>
         <Button className='dec_btn' onClick={this.props.dec}>-</Button>
         <Button className='dec_btn' onClick={this.props.asyncAdd}>async</Button>

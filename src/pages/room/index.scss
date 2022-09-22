@@ -2,3 +2,13 @@
   flex-direction: column;
   width: 100%;
 }
+.page-title {
+  height: 100px;
+  text-align: center;
+  font-weight: bold;
+  line-height: 100px;
+  font-size: 40px;
+}
+.action-btn + .action-btn {
+  margin-top: 20px;
+}

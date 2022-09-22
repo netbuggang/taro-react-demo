@@ -31,12 +31,12 @@ export const getCurrentPageUrl = () => {
 export const getUrlQuery = (url: string) => {
   let query = {}
 
-  if (url.indexOf("?") !== -1) {
-    const str = url.substring(url.indexOf("?"))
+  if (url.indexOf('?') !== -1) {
+    const str = url.substring(url.indexOf('?'))
     query = parseParams(str)
   }
 
-  return query;
+  return query
 }
 
 /**反序列化链接后的参数
@@ -46,9 +46,9 @@ export const getUrlQuery = (url: string) => {
  */
 export const parseParams = (search: string): Object => {
   const query = {}
-  const strs = search.replace('?', '').split("&")
+  const strs = search.replace('?', '').split('&')
   strs.forEach(item => {
-    query[item.split("=")[0]] = decodeURIComponent(item.split("=")[1])
+    query[item.split('=')[0]] = decodeURIComponent(item.split('=')[1])
   })
 
   return query
@@ -60,11 +60,43 @@ export const parseParams = (search: string): Object => {
  * @returns 
  */
 export const stringifyParams = (options: Object) => {
-  let str = "";
+  let str = ''
 
   for (let key in options) {
     str += `${encodeURIComponent(key)}=${encodeURIComponent(options[key])}&`
   }
 
-  return str.slice(0, -1);
+  return str.slice(0, -1)
+}
+
+export const validate = {
+  /**是否http网页
+   * 
+   * @param url 
+   * @returns 
+   */
+  isHttp(url: string) {
+    const reg = /^(http(s)?:)?\/\//
+    return reg.test(url)
+  },
+  /**是否小程序AppId
+   * 
+   * @param url 
+   * @returns 
+   * @example
+   * isAppId('wxc7be3122a3b2dda9')
+   */
+  isAppId(url: string) {
+    const reg = /^wx/
+    return reg.test(url)
+  },
+  /**是否相对路径
+   * 
+   * @param url 
+   * @returns 
+   */
+  isRelativePath(url: string) {
+    const reg = /^(\.(\.)?)\//
+    return reg.test(url)
+  },
 }
