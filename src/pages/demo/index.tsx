@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDidShow } from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import { View, Text, Button } from '@tarojs/components'
 import useGo from '../../hooks/useGo/index'
 import './index.scss'
 
@@ -20,6 +20,12 @@ const Demo = () => {
       <View>性别：<Text>{params.sex}</Text></View>
       <View>年龄：<Text>{params.age}</Text></View>
       <View>params: <Text>{JSON.stringify(params, null, 4)}</Text></View>
+      <Button className='action-btn' onClick={() => {
+        go.to({
+          url: `/pages/demo/index`
+        })
+      }}
+      >跳转DEMO页(navigateTo)</Button>
     </View>
   )
 }

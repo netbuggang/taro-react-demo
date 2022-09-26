@@ -9,7 +9,8 @@ import './app.scss'
 const store = configStore()
 
 initUseGo({
-  webView: '/pages/h5/index?url='
+  webView: '/pages/h5/index?url=',
+  emptyPage: '/pages/empty/index'
 })
 
 class App extends Component<PropsWithChildren> {

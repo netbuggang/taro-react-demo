@@ -1,5 +1,7 @@
 import Taro from '@tarojs/taro'
 
+export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
 /**获取当前页面栈
  * 
  * @returns 
