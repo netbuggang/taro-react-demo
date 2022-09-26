@@ -4,6 +4,7 @@ export default {
     'pages/index/index',
     'pages/user/index',
     'pages/demo/index',
+    'pages/demo2/index',
     'pages/h5/index',
     'pages/empty/index'
   ],

@@ -66,6 +66,7 @@ export default function useGo() {
     if (Config.emptyPage) {
       // 页面栈超过10层后使用中转页跳转
       if (pages.length == PAGE_LEVEL_LIMIT - 3) {
+        PAGE_STACK.push(_options)
         await Taro.navigateTo({ url: Config.emptyPage })
         if (envVersion == 'develop') {
           await utils.sleep(100)
@@ -74,14 +75,15 @@ export default function useGo() {
         const originOnShow = _page!.onShow
         _page!.onShow = function () {
           originOnShow?.apply(this)
-          if (!PAGE_STACK.length) {
-            return back({ delta: 1 })
+          if (PAGE_STACK.length >= 2) {
+            return navigateTo(PAGE_STACK.splice(PAGE_STACK.length - 2, 1)[0])
           } else {
-            return navigateTo(PAGE_STACK.pop() as IOptions)
+            PAGE_STACK.length = 0
+            return back({ delta: 1 })
           }
         }
       }
-      if (pages.length >= PAGE_LEVEL_LIMIT - 2) {
+      if (pages.length >= PAGE_LEVEL_LIMIT - 1) {
         PAGE_STACK.push(_options)
         return replace(_options)
       }

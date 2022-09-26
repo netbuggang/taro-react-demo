@@ -15,7 +15,7 @@ const Demo = () => {
 
   return (
     <View className='index'>
-      <View className='page-title'><Text>DEMO</Text></View>
+      <View className='page-title'><Text>DEMO2</Text></View>
       <View>姓名：<Text>{params.name}</Text></View>
       <View>性别：<Text>{params.sex}</Text></View>
       <View>年龄：<Text>{params.age}</Text></View>
